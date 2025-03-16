@@ -1,6 +1,5 @@
 import streamlit as st
 import pandas as pd
-from pdf2image import convert_from_bytes
 import openai
 import json
 from typing import List, Dict
@@ -10,6 +9,7 @@ from PIL import Image
 import io
 import time
 import uuid
+import fitz  # PyMuPDF
 
 # Set page configuration
 st.set_page_config(
@@ -120,6 +120,29 @@ class Extractor:
         )
         return response.choices[0].message.content
 
+def convert_pdf_to_images(pdf_bytes):
+    """
+    Convert PDF bytes to a list of PIL Image objects.
+    
+    Args:
+        pdf_bytes: The PDF file content in bytes.
+    
+    Returns:
+        List of PIL Image objects.
+    """
+    # Open the PDF from bytes
+    pdf_document = fitz.open(stream=pdf_bytes, filetype="pdf")
+    images = []
+
+    # Iterate through each page
+    for page_number in range(len(pdf_document)):
+        page = pdf_document.load_page(page_number)
+        pix = page.get_pixmap()
+        img = Image.open(io.BytesIO(pix.tobytes("png")))
+        images.append(img)
+
+    return images
+
 def process_pdf_file(filename, file_content, api_key):
     """
     Process a single PDF file and extract invoice data
@@ -133,8 +156,8 @@ def process_pdf_file(filename, file_content, api_key):
         Dictionary with filename and extracted content
     """
     try:
-        # Convert PDF bytes to images
-        images = convert_from_bytes(file_content)
+        # Convert PDF bytes to images using PyMuPDF
+        images = convert_pdf_to_images(file_content)
         
         # Extract data
         extractor = Extractor(api_key=api_key)
