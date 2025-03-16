@@ -116,7 +116,7 @@ class Extractor:
                     ]
                 }
             ],
-            response_format={"type": "json_object"}
+            response_format=Invoice
         )
         return response.choices[0].message.content
 
