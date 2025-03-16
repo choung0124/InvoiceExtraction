@@ -233,8 +233,8 @@ def main():
         st.header("Configuration")
         
         # API Key input
-        api_key = st.text_input("OpenAI API Key (optional)", type="password", 
-                               help="Enter your OpenAI API key. If not provided, the app will use the default key.")
+        api_key = st.text_input("OpenAI API Key", type="password", 
+                               help="Enter your OpenAI API key. Required for processing.")
         
         st.markdown("---")
         st.markdown("### About")
@@ -251,6 +251,11 @@ def main():
     
     # Main content
     st.header("Upload Invoice PDFs")
+    
+    # Check if API key is provided
+    if not api_key:
+        st.warning("Please enter your OpenAI API key in the sidebar to use this app.")
+        st.stop()
     
     uploaded_files = st.file_uploader("Choose PDF files", type="pdf", accept_multiple_files=True)
     
