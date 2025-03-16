@@ -102,7 +102,7 @@ class Extractor:
         Extracts information from an invoice image
         """
 
-        response: openai.ChatCompletion = self.client.chat.completions.create(
+        response: openai.ChatCompletion = self.client.beta.chat.completions.parse(
             model=self.model_name,
             messages=[
                 {
