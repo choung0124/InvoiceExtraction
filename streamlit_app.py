@@ -146,7 +146,8 @@ def process_pdf_file(filename, file_content, api_key):
             'status': 'success'
         }
     except Exception as e:
-        _ = f"Error processing {filename}: {str(e)}"
+        error_message = f"Error processing {filename}: {str(e)}"
+        print(error_message)  # Add logging
         return {
             'filename': filename,
             'content': json.dumps({"error": str(e)}),
