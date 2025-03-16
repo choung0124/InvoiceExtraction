@@ -77,6 +77,7 @@ class Extractor:
         self.prompt_template: str = """
             Your task is to extract all the items from an invoice
             The invoice is a list of items, each item has a reference number, serial/lot number and quantity
+            For reference numbers and serial/lot numbers, only the reference number, not the title/description.
             Perform your task in these steps:
             1. Read the invoice image, and identify which values refer to required fields
             2. Extract the values from the image
