@@ -9,7 +9,6 @@ import base64
 from PIL import Image
 import io
 import time
-import sys
 import uuid
 
 # Set page configuration
