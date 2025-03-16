@@ -147,7 +147,7 @@ def process_pdf_file(filename, file_content, api_key):
         }
     except Exception as e:
         error_message = f"Error processing {filename}: {str(e)}"
-        print(error_message)  # Add logging
+        print(error_message.encode('utf-8', errors='replace').decode('utf-8'))  # Ensure UTF-8 encoding
         return {
             'filename': filename,
             'content': json.dumps({"error": str(e)}),
